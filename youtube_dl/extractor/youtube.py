@@ -2677,6 +2677,10 @@ class YoutubeIE(YoutubeBaseInfoExtractor):
                     self.write_debug(error_to_compat_str(e), only_once=True)
                     continue
 
+            if parse_qs(fmt_url).get('n'):
+                # this and (we assume) all the formats here are n-scrambled
+                break
+
             language_preference = (
                 10 if audio_track.get('audioIsDefault')
                 else -10 if 'descriptive' in (traverse_obj(audio_track, ('displayName', T(lower))) or '')
